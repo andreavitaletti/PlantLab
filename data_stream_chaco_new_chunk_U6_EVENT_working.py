@@ -72,7 +72,8 @@ class Daq:
         #print "configuring U6 stream"
         #d.streamConfig( NumChannels = 1, ChannelNumbers = [ 0 ], ChannelOptions = [ 0 ], SettlingFactor = 1, ResolutionIndex = 1, SampleFrequency = 50000 ) #SampleFrequency = 50000 
         #d.streamConfig( NumChannels = 1, ChannelNumbers = [ 0 ], ChannelOptions = [ 0 ], SettlingFactor = 1, ResolutionIndex = 7, SampleFrequency = 1000 ) #SampleFrequency = 50000 
-        d.streamConfig( NumChannels = 2, ChannelNumbers = [ 0, 1 ], ChannelOptions = [ 0, 0 ], SettlingFactor = 1, ResolutionIndex = 1, ScanFrequency = 5000 )
+        #d.streamConfig( NumChannels = 2, ChannelNumbers = [ 0, 1 ], ChannelOptions = [ 0, 0 ], SettlingFactor = 1, ResolutionIndex = 1, ScanFrequency = 5000 )
+        d.streamConfig( NumChannels = 2, ChannelNumbers = [ 0, 1 ], ChannelOptions = [ 0, 0 ], SettlingFactor = 1, ResolutionIndex = 1, ScanFrequency = 1000 )
         return d
 
 class StreamDataReader(object):
@@ -86,7 +87,7 @@ class StreamDataReader(object):
     def readStreamData(self):
         self.running = True
         
-        start = datetime.now()
+        #start = datetime.now()
         self.device.streamStart()
         while self.running:
             # Calling with convert = False, because we are going to convert in
@@ -95,7 +96,7 @@ class StreamDataReader(object):
             
             self.data.put_nowait(copy.deepcopy(returnDict))
             
-            self.dataCount += 1
+            #self.dataCount += 1
             wx.PostEvent(app, SomeNewEvent())
             #if self.dataCount > MAX_REQUESTS:
             #    self.running = False
@@ -172,10 +173,17 @@ class Controller(HasTraits):
             a = r['AIN0']
             #print a
             chunk = len(r['AIN0'])
+            # strange behavour depends on the sampling rate
+            '''
+            print "chunk",chunk
+            j2 = [i for i in a if (i >= 1 or i <= -1)]
+            print j2
+            '''
         except Queue.Empty:
             eq = True
+            print "empty"
           
-        # the queue is empty, so the consumer, i.e. the controller, cannot take any data
+        # the queue is not empty, so the consumer, i.e. the controller, can take data
         if not eq:
             new_val=a
             self.num_ticks += chunk
