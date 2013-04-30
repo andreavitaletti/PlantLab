@@ -1,25 +1,6 @@
-"""
-This demo shows how Chaco and Traits can be used to easily build a data
-acquisition and visualization system.
-
-Two frames are opened: one has the plot and allows configuration of
-various plot properties, and one which simulates controls for the hardware
-device from which the data is being acquired; in this case, it is a mockup
-random number generator whose mean and standard deviation can be controlled
-by the user.
-"""
-
-# Major library imports
-import random
 import wx
 import wx.lib.newevent
 from numpy import arange, array, hstack, random
-
-# Enthought imports
-#from enthought.traits.api import Array, Bool, Callable, Enum, Float, HasTraits, \
-#                                 Instance, Int, Trait
-#from enthought.traits.ui.api import Group, HGroup, Item, View, spring, Handler
-#from enthought.pyface.timer.api import Timer
 
 from traits.api import Array, Bool, Callable, Enum, Float, HasTraits, Instance, Int, Trait
 from traitsui.api import Group, HGroup, Item, View, spring, Handler
@@ -34,8 +15,6 @@ import Queue
 import ctypes, copy, sys
 
 
-# Chaco imports
-#from enthought.chaco.chaco_plot_editor import ChacoPlotItem
 # Chaco imports
 from chaco.chaco_plot_editor import ChacoPlotItem
 
@@ -74,11 +53,6 @@ class Viewer(HasTraits):
                 resizable = True,
                 buttons = ["OK"],
                 width=800, height=500)
-class fakeDaq:
-
-    def get_Data(self):
-        a = [1,2,3,4,5]
-        return a
 
 class Daq:
 
@@ -146,7 +120,6 @@ class Controller(HasTraits):
     viewer = Instance(Viewer)
     
     #d = fakeDaq()
-    print "ciao"
     daq = Daq()
     d=daq.init_Daq()
     sdr = StreamDataReader(d)
@@ -154,13 +127,8 @@ class Controller(HasTraits):
     #Start the stream and begin loading the result into a Queue
     sdrThread.start()
     
-    # Some parameters controller the random signal that will be generated
-    distribution_type = Enum("normal", "lognormal")
-    mean = Float(0.0)
-    stddev = Float(1.0)
-    
     # The max number of data points to accumulate and show in the plot
-    max_num_points = Int(1000)
+    max_num_points = Int(10000)
     
     # The number of data points we have received; we need to keep track of
     # this in order to generate the correct x axis data series.
@@ -172,38 +140,12 @@ class Controller(HasTraits):
     # it can be set to any callable object.
     _generator = Trait(random.normal, Callable)
     
-    view = View(Group('distribution_type', 
-                      'mean', 
-                      'stddev',
-                      'max_num_points',
+    view = View(Group('max_num_points',
                       orientation="vertical"),
                       buttons=["OK", "Cancel"])
                       
-    def prova(self):
-        a = [1,2,3,4,5]
-        return a
-        
-    def timer_tick1(self, *args):
-        # Generate a new number and increment the tick count
-        a = self.d.get_Data()
-        #a = self.prova()
-        
-        #[1,2,3,4,5]
-		#a = self.test()
-		#a=args[0] 
-        chunk=len(a)
-		#print "-->",chunk
-        new_val=a
-        self.num_ticks += chunk
-		#new_val = self._generator(self.mean, self.stddev)
-        cur_data = self.viewer.data
-        new_data = hstack((cur_data[-self.max_num_points+chunk+1:], new_val))
-        new_index = arange(self.num_ticks - len(new_data) +chunk + 1, self.num_ticks+0.01)
-        self.viewer.index = new_index   
-        self.viewer.data = new_data
-        return
     
-    def timer_tick2(self, *args):
+    def manage_data(self, *args):
         eq=False
         try:
             # Check if the thread is still running
@@ -230,25 +172,8 @@ class Controller(HasTraits):
             chunk = len(r['AIN0'])
         except Queue.Empty:
             eq = True
-            #print "Queue is empty. Stopping..."
-            #sdr.running = False
-            #break
-        #except KeyboardInterrupt:
-            #sdr.running = False
-        #except Exception, e:
-            #print type(e), e
-            #sdr.running = False
-            #break
+          
 
-        # Generate a new number and increment the tick count
-        #a = self.d.get_Data()
-        #a = self.prova()
-        
-        #[1,2,3,4,5]
-		#a = self.test()
-		#a=args[0] 
-        #chunk=len(a)
-		#print "-->",chunk
         if not eq:
             new_val=a
             self.num_ticks += chunk
@@ -260,36 +185,6 @@ class Controller(HasTraits):
             self.viewer.data = new_data
         return
         
-    def timer_tick(self, *args):
-        # Generate a new number and increment the tick count
-        new_val = self._generator(self.mean, self.stddev)
-        self.num_ticks += 1
-        
-        # grab the existing data, truncate it, and append the new point.
-        # This isn't the most efficient thing in the world but it works.
-        cur_data = self.viewer.data
-        new_data = hstack((cur_data[-self.max_num_points+1:], [new_val]))
-        new_index = arange(self.num_ticks - len(new_data) + 1, self.num_ticks+0.01)
-        
-        self.viewer.index = new_index
-        self.viewer.data = new_data
-        return
-            
-
-#def _distribution_type_changed(self):
-        # This listens for a change in the type of distribution to use.
-#        if self.distribution_type == "normal":
-#            self._generator = random.normal
-#        else:
-#            self._generator = random.lognormal
-            
-#===============================================================================
-# # Demo class that is used by the demo.py application.
-#===============================================================================
-# NOTE: The Demo class is being created for the purpose of running this
-# example using a TraitsDemo-like app (see examples/demo/demo.py in Traits3). 
-# The demo.py file looks for a 'demo' or 'popup' or 'modal popup' keyword
-# when it executes this file, and displays a view for it.
    
 class DemoHandler(Handler):
     
@@ -313,13 +208,11 @@ class Demo(HasTraits):
     def edit_traits(self, *args, **kws):        
         # Start up the timer! We should do this only when the demo actually
         # starts and not when the demo object is created.
-        self.timer=Timer(100, self.controller.timer_tick_new)
         return super(Demo, self).edit_traits(*args, **kws)
             
     def configure_traits(self, *args, **kws):        
         # Start up the timer! We should do this only when the demo actually
         # starts and not when the demo object is created.
-        self.timer=Timer(100, self.controller.timer_tick_new)
         return super(Demo, self).configure_traits(*args, **kws)
     
     def _controller_default(self):
@@ -338,31 +231,14 @@ class MyApp(wx.PySimpleApp):
         # Pop up the windows for the two objects
         viewer.edit_traits()
         controller.edit_traits()
-        #EVT_QUANTITY_CHANGED = wx.PyEventBinder(wx.NewEventType(), 17)
-        
-        # Set up the timer and start it up
-        # self.setup_timer(controller)
         self.setup_event(controller)
         return True
         
     def setup_event(self, controller):
-		
-		#self.Bind(EVT_SOME_NEW_EVENT, self.handler)
-        self.Bind(EVT_SOME_NEW_EVENT, controller.timer_tick2)
+        self.Bind(EVT_SOME_NEW_EVENT, controller.manage_data)
         return
 
-    def handler (self, evt):
-        print "handler"
-        controller.timer_tick2
-        return
 
-    def setup_timer(self, controller):
-        # Create a new WX timer
-        timerId = wx.NewId()
-        self.timer = wx.Timer(self, timerId)
-        self.Bind(wx.EVT_TIMER, controller.timer_tick2, id=timerId)
-        self.timer.Start(50.0, wx.TIMER_CONTINUOUS)
-        return
 
 # This is called when this example is to be run in a standalone mode.
 if __name__ == "__main__":
