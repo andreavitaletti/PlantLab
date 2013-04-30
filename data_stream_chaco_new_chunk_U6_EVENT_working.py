@@ -20,6 +20,8 @@ from chaco.chaco_plot_editor import ChacoPlotItem
 
 app=None
 SomeNewEvent, EVT_SOME_NEW_EVENT = wx.lib.newevent.NewEvent()
+#sdrThread=None
+#sdr=None
 
 class Viewer(HasTraits):
     """ This class just contains the two data arrays that will be updated
@@ -138,7 +140,7 @@ class Controller(HasTraits):
     # just means that self._generator should be initialized to
     # random.normal, which is a random number function, and in the future
     # it can be set to any callable object.
-    _generator = Trait(random.normal, Callable)
+    #_generator = Trait(random.normal, Callable)
     
     view = View(Group('max_num_points',
                       orientation="vertical"),
@@ -173,7 +175,7 @@ class Controller(HasTraits):
         except Queue.Empty:
             eq = True
           
-
+        # the queue is empty, so the consumer, i.e. the controller, cannot take any data
         if not eq:
             new_val=a
             self.num_ticks += chunk
@@ -193,7 +195,8 @@ class DemoHandler(Handler):
         Overridden here to stop the timer once the window is destroyed.
         """
         
-        info.object.timer.Stop()
+        #info.object.timer.Stop()
+        print "stop stop stop"
         return
     
 class Demo(HasTraits):
@@ -224,25 +227,41 @@ popup=Demo()
 
 class MyApp(wx.PySimpleApp):
     
+    controller = None
+    
     def OnInit(self, *args, **kw):
         viewer = Viewer()
-        controller = Controller(viewer = viewer)
+        self.controller = Controller(viewer = viewer)
         
         # Pop up the windows for the two objects
         viewer.edit_traits()
-        controller.edit_traits()
-        self.setup_event(controller)
+        self.controller.edit_traits()
+        self.setup_event(self.controller)
+        self.Bind(wx.EVT_CLOSE, self.OnCloseWindow)
         return True
         
     def setup_event(self, controller):
         self.Bind(EVT_SOME_NEW_EVENT, controller.manage_data)
         return
+        
+    def OnCloseWindow(self, event):
+        print "fine"
+        self.Destroy()
+        return
+    def onFinishing(self):
+        self.controller.d.streamStop()
+        return
+        
 
 
 
 # This is called when this example is to be run in a standalone mode.
 if __name__ == "__main__":
-    app = MyApp()
-    app.MainLoop()    
+    try:
+        app = MyApp()
+        app.MainLoop()
+    finally:
+        app.onFinishing()
+        #print "finito!"
 
 # EOF
