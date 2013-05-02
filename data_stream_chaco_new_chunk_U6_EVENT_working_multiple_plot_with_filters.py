@@ -170,8 +170,16 @@ class Controller(HasTraits):
     viewer = Instance(Viewer)
     
     #d = fakeDaq()
+    FIO0_DIR_REGISTER = 6100
+    FIO0_STATE_REGISTER = 6000
+    FIO1_DIR_REGISTER = 6101
+    FIO1_STATE_REGISTER = 6001
     daq = Daq()
     d=daq.init_Daq()
+    d.writeRegister(FIO0_DIR_REGISTER, 1)  # Set FIO0 to digital output
+    d.writeRegister(FIO1_DIR_REGISTER, 1)  # Set FIO1 to digital output
+    d.writeRegister(FIO0_STATE_REGISTER, 0) # Set FIO0 low
+    d.writeRegister(FIO1_STATE_REGISTER, 0) # Set FIO1 low
     sdr = StreamDataReader(d)
     sdrThread = threading.Thread(target = sdr.readStreamData)
     #Start the stream and begin loading the result into a Queue
@@ -184,6 +192,9 @@ class Controller(HasTraits):
     # this in order to generate the correct x axis data series.
     num_ticks = Int(0)
     
+    gain = Enum("1", "10","100","1000")
+    current_gain = 1
+    
     # private reference to the random number generator.  this syntax
     # just means that self._generator should be initialized to
     # random.normal, which is a random number function, and in the future
@@ -191,6 +202,7 @@ class Controller(HasTraits):
     #_generator = Trait(random.normal, Callable)
     
     view = View(Group('max_num_points',
+                      'gain',  
                       orientation="vertical"),
                       buttons=["OK", "Cancel"])
                       
@@ -253,6 +265,27 @@ class Controller(HasTraits):
             self.viewer.data1 = new_data
             self.viewer.filtered_data0 = lfilter(fir_coeff, 1.0, new_data)
         return
+    # EI-1040 Instrumentatino Amplifier
+    # GAIN  GS1 GS2
+    # 1     0   0
+    # 10    1   0
+    # 100   0   1
+    # 1000  1   1 
+    def _gain_changed(self):
+        # This listens for a change in the type of distribution to use.
+        if self.gain == "10":
+            self.d.writeRegister(self.FIO0_STATE_REGISTER, 1) # Set FIO0 high
+            self.d.writeRegister(self.FIO1_STATE_REGISTER, 0) # Set FIO1 low
+        elif self.gain == "100":
+            self.d.writeRegister(self.FIO0_STATE_REGISTER, 0) # Set FIO0 low
+            self.d.writeRegister(self.FIO1_STATE_REGISTER, 1) # Set FIO1 high
+        elif self.gain == "1000":
+            self.d.writeRegister(self.FIO0_STATE_REGISTER, 1) # Set FIO0 high
+            self.d.writeRegister(self.FIO1_STATE_REGISTER, 1) # Set FIO1 high
+        else:
+            self.d.writeRegister(self.FIO0_STATE_REGISTER, 0) # Set FIO0 low
+            self.d.writeRegister(self.FIO1_STATE_REGISTER, 0) # Set FIO1 low
+
         
    
 class DemoHandler(Handler):
@@ -269,7 +302,7 @@ class DemoHandler(Handler):
 class Demo(HasTraits):
     controller = Instance(Controller)
     viewer = Instance(Viewer, ())
-    timer = Instance(Timer)
+    #timer = Instance(Timer)
     view = View(Item('controller', style='custom', show_label=False), 
                 Item('viewer', style='custom', show_label=False), 
                 handler = DemoHandler,
