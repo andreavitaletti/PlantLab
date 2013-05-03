@@ -8,4 +8,4 @@ The main purpose of this code is to simplify the experiments using the labjack U
 
 ![Alt text](PlantLab/SetupLJ.jpg?raw=true)
 
-![My image](andreavitaletti.github.com/PlantLab/SetupLJ.jpg)
+![My image]('andreavitaletti.github.com/PlantLab/SetupLJ.jpg')
