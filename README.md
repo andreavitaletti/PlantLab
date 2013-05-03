@@ -7,3 +7,5 @@ The main purpose of this code is to simplify the experiments using the labjack U
  in the future it would be nice to extend to other DAQa and write a kind of general purpose free tool to analyse signals emitted by plants
 
 ![Alt text](PlantLab/SetupLJ.jpg?raw=true)
+
+![My image](andreavitaletti.github.com/PlantLab/SetupLJ.jpg)
