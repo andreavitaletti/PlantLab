@@ -15,6 +15,10 @@ import Queue
 import ctypes, copy, sys
 from scipy.signal import lfilter, firwin
 
+from xml.etree.ElementTree import Element, tostring
+#from ElementTree_pretty import prettify
+import xml.etree.ElementTree as xml
+
 
 # Chaco imports
 from chaco.chaco_plot_editor import ChacoPlotItem
@@ -22,10 +26,13 @@ from chaco.chaco_plot_editor import ChacoPlotItem
 app=None
 SomeNewEvent, EVT_SOME_NEW_EVENT = wx.lib.newevent.NewEvent()
 now = datetime.now()
-name_file0 = "ain0" + str(now)
-name_file1 = "ain1" + str(now)
-name_filestat = "stat" + str(now)
+name_file0 = "datasets/ain0 " + str(now)
+name_file1 = "datasets/ain1 " + str(now)
+name_filestat = "datasets/info " + str(now)+".xml"
 
+info = Element('info')
+newinfo =[Element('file',name='AIN0',value=name_file0), Element('file',name='AIN1',value=name_file1)]
+info.extend(newinfo)
 
 f0 = open(name_file0, 'w')
 f1 = open(name_file1, 'w')
@@ -199,7 +206,10 @@ class Controller(HasTraits):
     # The number of data points we have received; we need to keep track of
     # this in order to generate the correct x axis data series.
     num_ticks = Int(0)
-    fs.write("Gain 1 at 0\n")
+    #fs.write("Gain 1 at 0\n")
+    newinfo =[Element('gain', value='1', tick='0')]
+    info.extend(newinfo)
+
     
     gain = Enum("1", "10","100","1000")
     current_gain = 1
@@ -219,8 +229,10 @@ class Controller(HasTraits):
                       
     def _marker_fired(self):
 		#now = datetime.now()
-		print "Event at", self.num_ticks
-		fs.write("Event at %s\n" % self.num_ticks)
+		#print "Event at", self.num_ticks
+		#fs.write("Event at %s\n" % self.num_ticks)
+        newinfo =[Element('mark',name='flame',tick=str(self.num_ticks))]
+        info.extend(newinfo)
 		
     def manage_data(self, *args):
         eq=False
@@ -289,19 +301,23 @@ class Controller(HasTraits):
     def _gain_changed(self):
         # This listens for a change in the type of distribution to use.
         if self.gain == "10":
-            fs.write("Gain 10 at %s\n" % self.num_ticks)
+            newinfo =[Element('gain', value='10', tick=str(self.num_ticks))]
+            info.extend(newinfo)
             self.d.writeRegister(self.FIO0_STATE_REGISTER, 1) # Set FIO0 high
             self.d.writeRegister(self.FIO1_STATE_REGISTER, 0) # Set FIO1 low
         elif self.gain == "100":
-            fs.write("Gain 100 at %s\n" % self.num_ticks)
+            newinfo =[Element('gain', value='100', tick=str(self.num_ticks))]
+            info.extend(newinfo)
             self.d.writeRegister(self.FIO0_STATE_REGISTER, 0) # Set FIO0 low
             self.d.writeRegister(self.FIO1_STATE_REGISTER, 1) # Set FIO1 high
         elif self.gain == "1000":
-            fs.write("Gain 1000 at %s\n" % self.num_ticks)
+            newinfo =[Element('gain', value='1000', tick=str(self.num_ticks))]
+            info.extend(newinfo)
             self.d.writeRegister(self.FIO0_STATE_REGISTER, 1) # Set FIO0 high
             self.d.writeRegister(self.FIO1_STATE_REGISTER, 1) # Set FIO1 high
         elif self.gain == "1":
-            fs.write("Gain 1 at %s\n" % self.num_ticks)
+            newinfo =[Element('gain', value='1', tick=str(self.num_ticks))]
+            info.extend(newinfo)
             self.d.writeRegister(self.FIO0_STATE_REGISTER, 0) # Set FIO0 low
             self.d.writeRegister(self.FIO1_STATE_REGISTER, 0) # Set FIO1 low
 	
@@ -382,6 +398,7 @@ if __name__ == "__main__":
     finally:
         f0.close()
         f1.close()
+        xml.ElementTree(info).write(fs)
         fs.close()
         app.onFinishing()
         #print "finito!"
