@@ -86,19 +86,19 @@ class Viewer(HasTraits):
                                width=800,
                                height=300,
                                show_label=False),
-                               ChacoPlotItem("index0", "filtered_data0",
-                               type_trait="plot_type",
-                               resizable=True,
-                               x_label="Time",
-                               y_label="FilteredAIN0",
-                               color="black",
-                               bgcolor="white",
-                               border_visible=True,
-                               border_width=1,
-                               padding_bg_color="lightgray",
-                               width=800,
-                               height=300,
-                               show_label=False),
+                               #ChacoPlotItem("index0", "filtered_data0",
+                               #type_trait="plot_type",
+                               #resizable=True,
+                               #x_label="Time",
+                               #y_label="FilteredAIN0",
+                               #color="black",
+                               #bgcolor="white",
+                               #border_visible=True,
+                               #border_width=1,
+                               #padding_bg_color="lightgray",
+                               #width=800,
+                               #height=300,
+                               #show_label=False),
                                ChacoPlotItem("index1", "data1",
                                type_trait="plot_type",
                                resizable=True,
@@ -134,7 +134,8 @@ class Daq:
         #d.streamConfig( NumChannels = 1, ChannelNumbers = [ 0 ], ChannelOptions = [ 0 ], SettlingFactor = 1, ResolutionIndex = 1, SampleFrequency = 50000 ) #SampleFrequency = 50000 
         #d.streamConfig( NumChannels = 1, ChannelNumbers = [ 0 ], ChannelOptions = [ 0 ], SettlingFactor = 1, ResolutionIndex = 7, SampleFrequency = 1000 ) #SampleFrequency = 50000 
         #d.streamConfig( NumChannels = 2, ChannelNumbers = [ 0, 1 ], ChannelOptions = [ 0, 0 ], SettlingFactor = 1, ResolutionIndex = 1, ScanFrequency = 5000 )
-        d.streamConfig( NumChannels = 2, ChannelNumbers = [ 0, 1 ], ChannelOptions = [ 0, 0 ], SettlingFactor = 1, ResolutionIndex = 1, ScanFrequency = 1000 )
+        #d.streamConfig( NumChannels = 2, ChannelNumbers = [ 0, 1 ], ChannelOptions = [ 0, 0 ], SettlingFactor = 1, ResolutionIndex = 1, ScanFrequency = 1000 )
+        d.streamConfig( NumChannels = 2, ChannelNumbers = [ 0, 1 ], ChannelOptions = [ 0, 0 ], ResolutionIndex = 1, ScanFrequency = 1000 )
         return d
 
 class StreamDataReader(object):
@@ -261,8 +262,8 @@ class Controller(HasTraits):
                 f0.write("%s\n" % item)
             chunk = len(r['AIN0'])
             ain1 = r['AIN1']
-            for item in ain0:
-                f1.write("%s\n" % item)
+            for item1 in ain1:
+                f1.write("%s\n" % item1)
             
             if chunk != len(r['AIN1']):
                 print "strange!"
