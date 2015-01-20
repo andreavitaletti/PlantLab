@@ -5,6 +5,7 @@ import struct
 import traceback
 import ConfigParser
 import thread
+import os
 
 ################################################################################
 ## U6
@@ -35,12 +36,17 @@ file_report_name = start.strftime("%Y-%m-%d-%H-%M-%S")+'.rep'
 
 print "CURRENT DATA FILE IS:"+file_data_name
 
-fout = open(file_data_name, "w")
+folder = Config.get('ExperimentalSetUp','folder')
+
+if not os.path.exists(folder):
+    os.makedirs(folder)
+
+fout = open(folder+'/'+file_data_name, "w")
 
 #Copy the config file into the experiment report file
 #shutil.copyfile(CONF_FILE, file_report_name)
 
-repfile = open(file_report_name,'w')
+repfile = open(folder+'/'+file_report_name,'w')
 
 Config.add_section('Event')
 Config.set('Event','Started',start.strftime("%Y-%m-%d-%H-%M-%S"))
@@ -109,7 +115,7 @@ try:
 				chunk = chunk + 1
 				Config.set('Event','Chunk '+str(chunk)+' start',new_start.strftime("%Y-%m-%d-%H-%M-%S"))
 				file_data_name = start.strftime("%Y-%m-%d-%H-%M-%S")+'_CHUNK_'+str(chunk)+'.dat'
-				fout = open(file_data_name, "w")
+				fout = open(folder+'/'+file_data_name, "w")
             
             if r['errors'] != 0:
                 print "Error: %s ; " % r['errors'], datetime.now()
