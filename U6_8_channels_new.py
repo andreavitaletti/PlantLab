@@ -4,7 +4,7 @@ from datetime import datetime
 import struct
 import traceback
 import ConfigParser
-import os
+import thread
 
 ################################################################################
 ## U6
@@ -35,17 +35,12 @@ file_report_name = start.strftime("%Y-%m-%d-%H-%M-%S")+'.rep'
 
 print "CURRENT DATA FILE IS:"+file_data_name
 
-folder = Config.get('ExperimentalSetUp','folder')
-
-if not os.path.exists(folder):
-    os.makedirs(folder)
-
-fout = open(folder+'/'+file_data_name, "w")
+fout = open(file_data_name, "w")
 
 #Copy the config file into the experiment report file
 #shutil.copyfile(CONF_FILE, file_report_name)
 
-repfile = open(folder+'/'+file_report_name,'w')
+repfile = open(file_report_name,'w')
 
 Config.add_section('Event')
 Config.set('Event','Started',start.strftime("%Y-%m-%d-%H-%M-%S"))
@@ -78,16 +73,19 @@ class App:
 
     def reg_event(self):
         global ST
+        global Config
         Config.set('Event','Stimulus '+ str(ST)+" time",datetime.now().strftime("%Y-%m-%d-%H-%M-%S"))
         Config.set('Event','Stimulus '+ str(ST)+" type",self.textarea.get(1.0, END))
         ST = ST + 1
+def threadmain():
+	root = Tk()
 
-root = Tk()
+	app = App(root)
 
-app = App(root)
+	root.mainloop()
+	root.destroy() # optional; see description below
 
-root.mainloop()
-root.destroy() # optional; see description below
+thread.start_new_thread(threadmain, ())
 
 try:
     d.streamStart()
@@ -111,7 +109,7 @@ try:
 				chunk = chunk + 1
 				Config.set('Event','Chunk '+str(chunk)+' start',new_start.strftime("%Y-%m-%d-%H-%M-%S"))
 				file_data_name = start.strftime("%Y-%m-%d-%H-%M-%S")+'_CHUNK_'+str(chunk)+'.dat'
-				fout = open(folder+'/'+file_data_name, "w")
+				fout = open(file_data_name, "w")
             
             if r['errors'] != 0:
                 print "Error: %s ; " % r['errors'], datetime.now()
