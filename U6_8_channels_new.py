@@ -26,7 +26,7 @@ Config.read(CONF_FILE)
 
 samfreq = int(Config.get('ExperimentalSetUp','sampling_frequency'))
 
-d.streamConfig( NumChannels = 8, ChannelNumbers = [ 0,1,2,3,4,5,6,7 ], ChannelOptions = [ 8,8,8,8,8,8,8,8 ], ResolutionIndex = 2, ScanFrequency = samfreq) #1000 Hz 
+d.streamConfig( NumChannels = 8, ChannelNumbers = [ 0,1,2,3,4,5,6,7 ], ChannelOptions = [ 8,8,8,8,8,8,8,8 ], ResolutionIndex = 2, ScanFrequency = samfreq)  
 
 
 chunk = 1
@@ -42,6 +42,7 @@ if not os.path.exists(folder):
     os.makedirs(folder)
 
 fout = open(folder+'/'+file_data_name, "w")
+fout_plot = open("plot.dat", "w")
 
 #Copy the config file into the experiment report file
 #shutil.copyfile(CONF_FILE, file_report_name)
@@ -133,6 +134,7 @@ try:
             for a,b,c,d1,e,f,g,h in zip(r['AIN0'][:shortest],r['AIN1'][:shortest],r['AIN2'][:shortest],r['AIN3'][:shortest],r['AIN4'][:shortest],r['AIN5'][:shortest],r['AIN6'][:shortest],r['AIN7'][:shortest]):
 				item = ",".join([str(x) for x in [a,b,c,d1,e,f,g,h]])
 				fout.write("%s\n" % item)
+				fout_plot.write("%s\n" % item)
 
 except KeyboardInterrupt:
     print "END"
@@ -147,6 +149,7 @@ finally:
 	d.streamStop()
 	d.close()
 	fout.close()
+	fout_plot.close()
 	repfile.close()
 
 
