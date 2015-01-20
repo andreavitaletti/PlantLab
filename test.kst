@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kst version="2.0">
+    <data>
+        <source reader="ASCII file" file="/home/andrea/Documents/Business/WLAB/Projects/PLEASED/electrodes/predeploytrue/8channels.dat" fileRelative="8channels.dat">
+            <properties vector="INDEX" interpretation="1" delimiters="#" columntype="2" columndelimiter="," headerstart="0" fields="0" readfields="false" usedot="true" columnwidthisconst="false" readunits="false" units="0"/>
+        </source>
+    </data>
+    <variables>
+        <datavector file="/home/andrea/Documents/Business/WLAB/Projects/PLEASED/electrodes/predeploytrue/8channels.dat" fileRelative="8channels.dat" field="INDEX" start="0" count="-1" skip="-1" doAve="false" initialVNum="1" initialXNum="1"/>
+        <datavector file="/home/andrea/Documents/Business/WLAB/Projects/PLEASED/electrodes/predeploytrue/8channels.dat" fileRelative="8channels.dat" field="Column 1" start="0" count="-1" skip="-1" doAve="false" initialVNum="2" initialXNum="13"/>
+        <datavector file="/home/andrea/Documents/Business/WLAB/Projects/PLEASED/electrodes/predeploytrue/8channels.dat" fileRelative="8channels.dat" field="Column 2" start="0" count="-1" skip="-1" doAve="false" initialVNum="3" initialXNum="25"/>
+        <datavector file="/home/andrea/Documents/Business/WLAB/Projects/PLEASED/electrodes/predeploytrue/8channels.dat" fileRelative="8channels.dat" field="Column 3" start="0" count="-1" skip="-1" doAve="false" initialVNum="4" initialXNum="37"/>
+        <datavector file="/home/andrea/Documents/Business/WLAB/Projects/PLEASED/electrodes/predeploytrue/8channels.dat" fileRelative="8channels.dat" field="Column 4" start="0" count="-1" skip="-1" doAve="false" initialVNum="5" initialXNum="49"/>
+        <datavector file="/home/andrea/Documents/Business/WLAB/Projects/PLEASED/electrodes/predeploytrue/8channels.dat" fileRelative="8channels.dat" field="Column 5" start="0" count="-1" skip="-1" doAve="false" initialVNum="6" initialXNum="61"/>
+        <datavector file="/home/andrea/Documents/Business/WLAB/Projects/PLEASED/electrodes/predeploytrue/8channels.dat" fileRelative="8channels.dat" field="Column 6" start="0" count="-1" skip="-1" doAve="false" initialVNum="7" initialXNum="73"/>
+        <datavector file="/home/andrea/Documents/Business/WLAB/Projects/PLEASED/electrodes/predeploytrue/8channels.dat" fileRelative="8channels.dat" field="Column 7" start="0" count="-1" skip="-1" doAve="false" initialVNum="8" initialXNum="85"/>
+        <datavector file="/home/andrea/Documents/Business/WLAB/Projects/PLEASED/electrodes/predeploytrue/8channels.dat" fileRelative="8channels.dat" field="Column 8" start="0" count="-1" skip="-1" doAve="false" initialVNum="9" initialXNum="97"/>
+        <string value="2015-01-16 16:20:13" initialTNum="1"/>
+        <string value="2015-01-16 16:20:13" initialTNum="2"/>
+        <string value="8channels.dat" initialTNum="3"/>
+        <string value="/home/andrea/Documents/Business/WLAB/Projects/PLEASED/electrodes/predeploytrue" initialTNum="4"/>
+    </variables>
+    <objects/>
+    <relations>
+        <curve xvector="INDEX (V1)" yvector="Column 1 (V2)" color="#0000ff" headcolor="#000000" haslines="true" linewidth="0" linestyle="0" haspoints="false" pointtype="0" pointdensity="0" hasbars="false" barstyle="0" ignoreautoscale="false" hashead="false" headtype="0" initialCNum="1"/>
+        <curve xvector="INDEX (V1)" yvector="Column 2 (V3)" color="#008000" headcolor="#000000" haslines="true" linewidth="0" linestyle="0" haspoints="false" pointtype="1" pointdensity="0" hasbars="false" barstyle="0" ignoreautoscale="false" hashead="false" headtype="0" initialCNum="2"/>
+        <curve xvector="INDEX (V1)" yvector="Column 3 (V4)" color="#000000" headcolor="#000000" haslines="true" linewidth="0" linestyle="0" haspoints="false" pointtype="2" pointdensity="0" hasbars="false" barstyle="0" ignoreautoscale="false" hashead="false" headtype="0" initialCNum="3"/>
+        <curve xvector="INDEX (V1)" yvector="Column 4 (V5)" color="#ff00ff" headcolor="#000000" haslines="true" linewidth="0" linestyle="0" haspoints="false" pointtype="3" pointdensity="0" hasbars="false" barstyle="0" ignoreautoscale="false" hashead="false" headtype="0" initialCNum="4"/>
+        <curve xvector="INDEX (V1)" yvector="Column 5 (V6)" color="#4682b4" headcolor="#000000" haslines="true" linewidth="0" linestyle="0" haspoints="false" pointtype="4" pointdensity="0" hasbars="false" barstyle="0" ignoreautoscale="false" hashead="false" headtype="0" initialCNum="5"/>
+        <curve xvector="INDEX (V1)" yvector="Column 6 (V7)" color="#501010" headcolor="#000000" haslines="true" linewidth="0" linestyle="0" haspoints="false" pointtype="5" pointdensity="0" hasbars="false" barstyle="0" ignoreautoscale="false" hashead="false" headtype="0" initialCNum="6"/>
+        <curve xvector="INDEX (V1)" yvector="Column 7 (V8)" color="#105010" headcolor="#000000" haslines="true" linewidth="0" linestyle="0" haspoints="false" pointtype="6" pointdensity="0" hasbars="false" barstyle="0" ignoreautoscale="false" hashead="false" headtype="0" initialCNum="7"/>
+        <curve xvector="INDEX (V1)" yvector="Column 8 (V9)" color="#aa0000" headcolor="#000000" haslines="true" linewidth="0" linestyle="0" haspoints="false" pointtype="7" pointdensity="0" hasbars="false" barstyle="0" ignoreautoscale="false" hashead="false" headtype="0" initialCNum="8"/>
+    </relations>
+    <graphics>
+        <view name="View &amp;1" width="1915" height="951">
+            <plot tiedxzoom="false" tiedyzoom="false" leftlabelvisible="true" bottomlabelvisible="true" rightlabelvisible="true" toplabelvisible="true" globalfont="Noto Sans,9,-1,5,50,0,0,0,0,0" globalfontscale="16" globalfontcolor="#000000" showlegend="true" hidebottomaxislabel="false" hidetopaxislabel="false" hideleftaxislabel="false" hiderightaxislabel="false" initialPlotNum="1" name="Plot">
+                <position x="3" y="3"/>
+                <rect x="0" y="0" width="1909" height="945"/>
+                <relativesize width="0.996346555323591" height="0.992647058823529" centerx="0.499739039665971" centery="0.499474789915966" posx="0.00156576200417537" posy="0.00315126050420168"/>
+                <transform m11="1" m12="0" m13="0" m21="0" m22="1" m23="0" m31="0" m32="0" m33="1"/>
+                <pen style="1" width="0" miterlimit="2" cap="16" joinStyle="64">
+                    <brush color="#000000" style="1"/>
+                </pen>
+                <brush color="#ffffff" style="1"/>
+                <legend auto="true" title="" font="Noto Sans,9,-1,5,50,0,0,0,0,0" fontscale="9.6" verticaldisplay="false" name="Legend">
+                    <position x="140.4765625" y="124.41268115942"/>
+                    <rect x="0" y="0" width="1720" height="38"/>
+                    <relativesize width="0.933435088611888" height="0.0464263897373244" centerx="0.516717544305944" centery="0.158720441245474" posx="0.05" posy="0.135507246376812"/>
+                    <transform m11="1" m12="0" m13="0" m21="0" m22="1" m23="0" m31="0" m32="0" m33="1"/>
+                    <pen style="1" width="0" miterlimit="2" cap="16" joinStyle="64">
+                        <brush color="#000000" style="1"/>
+                    </pen>
+                    <brush color="#ffffff" style="1"/>
+                </legend>
+                <cartesianrender name="Cartesian Plot" type="1">
+                    <relation tag="Column 1 vs INDEX (C1)"/>
+                    <relation tag="Column 2 vs INDEX (C2)"/>
+                    <relation tag="Column 3 vs INDEX (C3)"/>
+                    <relation tag="Column 4 vs INDEX (C4)"/>
+                    <relation tag="Column 5 vs INDEX (C5)"/>
+                    <relation tag="Column 6 vs INDEX (C6)"/>
+                    <relation tag="Column 7 vs INDEX (C7)"/>
+                    <relation tag="Column 8 vs INDEX (C8)"/>
+                </cartesianrender>
+                <plotaxis id="xaxis" visible="true" log="false" reversed="false" autobaseoffset="true" baseoffset="false" interpret="false" interpretation="1" display="4" majortickmode="5" minortickcount="5" autominortickcount="true" drawmajorticks="true" drawminorticks="true" drawmajorgridlines="true" drawminorgridlines="false" drawmajorgridlinecolor="#a0a0a4" drawminorgridlinecolor="#a0a0a4" drawmajorgridlinestyle="2" drawminorgridlinestyle="2" drawmajorgridlinewidth="1" drawminorgridlinewidth="1" significantdigits="9" rotation="0" zoommode="0">
+                    <plotmarkers xaxis="true" linecolor="#000000" linestyle="1" linewidth="1" curvemode="-1"/>
+                </plotaxis>
+                <plotaxis id="yaxis" visible="true" log="false" reversed="false" autobaseoffset="true" baseoffset="false" interpret="false" interpretation="1" display="4" majortickmode="5" minortickcount="5" autominortickcount="true" drawmajorticks="true" drawminorticks="true" drawmajorgridlines="true" drawminorgridlines="false" drawmajorgridlinecolor="#a0a0a4" drawminorgridlinecolor="#a0a0a4" drawmajorgridlinestyle="2" drawminorgridlinestyle="2" drawmajorgridlinewidth="1" drawminorgridlinewidth="1" significantdigits="9" rotation="0" zoommode="1">
+                    <plotmarkers xaxis="false" linecolor="#000000" linestyle="1" linewidth="1" curvemode="-1"/>
+                </plotaxis>
+                <plotlabel id="leftlabel" visible="true" overridetext="" autolabel="true" font="Noto Sans,9,-1,5,50,0,0,0,0,0" fontscale="16" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="rightlabel" visible="true" overridetext="" autolabel="true" font="Noto Sans,9,-1,5,50,0,0,0,0,0" fontscale="16" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="toplabel" visible="true" overridetext="" autolabel="true" font="Noto Sans,9,-1,5,50,0,0,0,0,0" fontscale="16" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="bottomlabel" visible="true" overridetext="" autolabel="true" font="Noto Sans,9,-1,5,50,0,0,0,0,0" fontscale="16" fontcolor="#000000" fontuseglobal="true"/>
+                <plotlabel id="numberlabel" visible="true" overridetext="" autolabel="true" font="Noto Sans,9,-1,5,50,0,0,0,0,0" fontscale="16" fontcolor="#000000" fontuseglobal="true"/>
+                <projectionrect x="0" y="-8.00492071396575" width="53010" height="16.2993828957015"/>
+            </plot>
+        </view>
+    </graphics>
+</kst>
