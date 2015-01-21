@@ -10,3 +10,11 @@ To investigate the propagation of signals, similarly to what has been already do
 the schematics of a single channel in Eagle
 
 ![My image](https://raw.github.com/andreavitaletti/PlantLab/master/Singlechannel.png)
+
+A picture of an experiment with 4 plants
+
+![My image](https://raw.github.com/andreavitaletti/PlantLab/master/groupsetup1.png)
+
+and a picture of the corrensponding output that is stored in [plant.dat](https://raw.github.com/andreavitaletti/PlantLab/master/plant.dat)
+
+![My image](https://raw.github.com/andreavitaletti/PlantLab/master/output.png)
