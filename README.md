@@ -15,6 +15,6 @@ A picture of an experiment with 4 plants
 
 ![My image](https://raw.github.com/andreavitaletti/PlantLab/master/groupsetup1.png)
 
-and a picture of the corrensponding output that is stored in [plant.dat](https://raw.github.com/andreavitaletti/PlantLab/master/plant.dat)
+and a picture of the corrensponding output that is stored in [plant.dat](https://raw.github.com/andreavitaletti/PlantLab/master/plot.dat)
 
 ![My image](https://raw.github.com/andreavitaletti/PlantLab/master/output.png)
